@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Triangle Type Checker</title>
+</head>
+<body>
+  <h1>Triangle Type Checker</h1>
+  <p>Click the button to enter three side lengths (via prompt).</p>
+  <button id="runBtn">Run Checker</button>
+
+  <script>
+    // Repeatedly prompt until user gives a numeric value
+    function getNumber(promptText) {
+      while (true) {
+        var input = prompt(promptText);
+        if (input === null) {
+          // user pressed Cancel — inform and continue prompting
+          alert("Input cancelled. Please enter a numeric value to continue.");
+          continue;
+        }
+        input = input.trim();
+        var num = parseFloat(input);
+        // Use isNaN() as required to check non-numeric values
+        if (!isNaN(num)) {
+          return num;
+        } else {
+          alert("That's not a number. Please enter a numeric value (e.g., 3, 4.5).");
+        }
+      }
+    }
+
+    // Classify the triangle and show the result using window.alert()
+    function determineTriangle(a, b, c) {
+      var eps = 1e-9; // tolerance for floating-point equality
+
+      // Basic validity checks
+      if (a <= 0 || b <= 0 || c <= 0) {
+        window.alert("Not a valid triangle: sides must be positive numbers.");
+        return;
+      }
+      // Triangle inequality: each pair sum must be greater than the third
+      if (a + b <= c + eps || a + c <= b + eps || b + c <= a + eps) {
+        window.alert("Not a valid triangle: triangle inequality violated.");
+        return;
+      }
+
+      // Equality checks with tolerance
+      var ab = Math.abs(a - b) < eps;
+      var bc = Math.abs(b - c) < eps;
+      var ac = Math.abs(a - c) < eps;
+
+      if (ab && bc) {
+        window.alert("The triangle is EQUILATERAL.");
+      } else if (ab || bc || ac) {
+        window.alert("The triangle is ISOSCELES.");
+      } else {
+        window.alert("The triangle is SCALENE.");
+      }
+    }
+
+    // Main function: prompt for sides and call determination function
+    function main() {
+      var a = getNumber("Enter length of side a:");
+      var b = getNumber("Enter length of side b:");
+      var c = getNumber("Enter length of side c:");
+      determineTriangle(a, b, c); // result is shown inside this function via alert
+    }
+
+    document.getElementById("runBtn").addEventListener("click", main);
+  </script>
+</body>
+</html>
