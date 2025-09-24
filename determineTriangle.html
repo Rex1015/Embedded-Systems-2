@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Activity 3.3 - Determine Triangle Type</title>
+</head>
+<body>
+  <script>
+    // Prompt the user three times and ensure numeric input.
+    // Repeats prompt until a valid number is entered or the user cancels (null).
+    function promptForNumber(message) {
+      while (true) {
+        var input = prompt(message);
+        if (input === null) { // user pressed Cancel
+          return null;
+        }
+        // Trim whitespace and check if number
+        input = input.trim();
+        if (input === "") {
+          alert("Empty input. Please enter a number.");
+          continue;
+        }
+        // Try to convert to number
+        var num = Number(input);
+        if (!isNaN(num)) {
+          return num;
+        } else {
+          alert("Invalid input. Please enter a numeric value.");
+        }
+      }
+    }
+
+    // determineTriangle: accepts three side lengths and alerts the triangle type.
+    function determineTriangle(a, b, c) {
+      // Basic numeric safety (in case callers pass non-numbers)
+      if (typeof a !== "number" || typeof b !== "number" || typeof c !== "number" ||
+          isNaN(a) || isNaN(b) || isNaN(c)) {
+        window.alert("Error: all inputs must be numbers.");
+        return;
+      }
+
+      // Optional validity check: make sure sides can form a triangle.
+      // (This step is extra and not required by the brief, but useful.)
+      if (a <= 0 || b <= 0 || c <= 0 ||
+          (a + b <= c) || (a + c <= b) || (b + c <= a)) {
+        window.alert("The given side lengths do not form a valid triangle.");
+        return;
+      }
+
+      // Compare sides
+      if (a === b && b === c) {
+        window.alert("The triangle is EQUILATERAL.");
+      } else if (a === b || b === c || a === c) {
+        window.alert("The triangle is ISOSCELES.");
+      } else {
+        window.alert("The triangle is SCALENE.");
+      }
+    }
+
+    // Main flow: prompt three times and call determineTriangle
+    (function main() {
+      var a = promptForNumber("Enter length of side a (numeric):");
+      if (a === null) { alert("Operation cancelled."); return; }
+      var b = promptForNumber("Enter length of side b (numeric):");
+      if (b === null) { alert("Operation cancelled."); return; }
+      var c = promptForNumber("Enter length of side c (numeric):");
+      if (c === null) { alert("Operation cancelled."); return; }
+
+      determineTriangle(a, b, c);
+    })();
+  </script>
+</body>
+</html>
